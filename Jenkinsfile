@@ -26,7 +26,7 @@ pipeline{
         }
         stage("Test"){
             steps{
-                echo "Developer / Tester tests likh ke dega..."
+                echo "Developer / Tester writes tests..."
             }
             
         }
