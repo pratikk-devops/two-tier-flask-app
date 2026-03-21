@@ -8,7 +8,7 @@ pipeline{
             steps{
                script{
                     clone("https://github.com/pratikk-devops/two-tier-flask-app.git", "main")
-               }               }
+            }
             }
         }
         stage("Trivy File System Scan"){
