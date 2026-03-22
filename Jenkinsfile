@@ -1,64 +1,38 @@
-@Library("Shared") _
 pipeline{
-    
-    agent { label "dev"};
+    agent any;
     
     stages{
-        stage("Code Clone"){
+        stage("CODE"){
             steps{
-               script{
-                    clone("https://github.com/pratikk-devops/two-tier-flask-app.git", "main")
-            }
+                    git url: "https://github.com/pratikk-devops/two-tier-flask-app.git", branch: "main"            
             }
         }
-        stage("Trivy File System Scan"){
-            steps{
-                script{
-                    trivy_fs()
-                }
-            }
-        }
-        stage("Build"){
+        stage("BUILD"){
             steps{
                 sh "docker build -t two-tier-flask-app ."
             }
-            
         }
-        stage("Test"){
+        stage("TEST")  {
             steps{
-                echo "Developer / Tester writes tests..."
-            }
-            
-        }
-        stage("Push to Docker Hub"){
-            steps{
-                script{
-                    docker_push("dockerHubCreds","two-tier-flask-app")
-                }  
+                echo"Developer/Tester writes the tests"
             }
         }
-        stage("Deploy"){
+        stage("Push to Docker Hub")  {
+            steps{
+                withCredentials([usernamePassword(
+                    credentialsId:"dockerHubCreds", 
+                    passwordVariable: "dockerHubPass",
+                    usernameVariable: "dockerHubUser"
+               )]){
+                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass} "
+                sh "docker image tag two-tier-flask-app ${env.dockerHubUser}/two-tier-flask-app"
+                sh "docker push ${env.dockerHubUser}/two-tier-flask-app:latest"
+                }
+            }
+        }
+        stage("DEPLOY"){
             steps{
                 sh "docker compose up -d --build flask-app"
-            }
-        }
-    }
-
-post{
-        success{
-            script{
-                emailext from: 'pratik.chaudhari18@gmail.com',
-                to: 'pratik.chaudhari18@gmail.com',
-                body: 'Build success for Demo CICD App',
-                subject: 'Build success for Demo CICD App'
-            }
-        }
-        failure{
-            script{
-                emailext from: 'pratik.chaudhari18@gmail.com',
-                to: 'pratik.chaudhari18@gmail.com',
-                body: 'Build Failed for Demo CICD App',
-                subject: 'Build Failed for Demo CICD App'
             }
         }
     }
