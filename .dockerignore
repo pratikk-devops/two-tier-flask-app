@@ -1,0 +1,4 @@
+mysql-data/
+*.pem
+*.cnf
+
