@@ -1,5 +1,2 @@
 This is a dummy file
 automate cicd deployment trigger + github webhooks
-installed docker compose v2
-udated agent server installed docker and docker compose v2
-hello world
