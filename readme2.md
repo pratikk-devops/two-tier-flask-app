@@ -6,7 +6,8 @@ This repository contains a simple two-tier Flask application (Flask + MySQL) and
 
 **Diagram:**
 
-![Workflow](screenshot/workflow.png)
+<img src="screenshot/">
+
 
 **What this README covers:**
 - Jenkins master setup on AWS EC2
