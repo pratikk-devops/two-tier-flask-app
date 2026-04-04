@@ -1,4 +1,4 @@
-# two-tier-flask-app — Jenkins CI/CD + DevSecOps Guide
+# Two-Tier-Flask-App — Jenkins CI/CD + DevSecOps Guide
 
 This repository contains a simple two-tier Flask application (Flask + MySQL) and a Jenkins-based CI/CD pipeline with DevSecOps scanning (Trivy). This README documents how to set up Jenkins on AWS, create pipelines (master & agents), integrate Trivy file-system scans, build/push Docker images, and deploy via Docker Compose.
 
