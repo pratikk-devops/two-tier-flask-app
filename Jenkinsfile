@@ -4,7 +4,16 @@ pipeline{
     stages{
         stage("CODE"){
             steps{
-                    git url: "https://github.com/pratikk-devops/two-tier-flask-app.git", branch: "main"            
+                script{
+                   clone("https://github.com/pratikk-devops/two-tier-flask-app.git", "main")
+               }                
+            }
+        }
+        stage("Trivy File System Scan"){
+            steps{
+                script{
+                    trivy_fs()
+                }
             }
         }
         stage("BUILD"){
