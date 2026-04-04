@@ -119,7 +119,7 @@ This repository contains a simple two-tier Flask application (Flask + MySQL) and
     wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
     echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee                   /etc/apt/sources.list.d/trivy.list
     sudo apt-get update
-    sudo apt-get install -y trivy
+    sudo apt-get install trivy -y
     ```
 
    # Basic file-system scan (as used in pipeline):
