@@ -4,153 +4,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Flask Application </title>
+    <title>My Flask Application</title>
     <style>
-        /* Import Google Font */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
 
-        /* Reset Default Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
         }
 
-        /* Background with subtle gradient */
+        :root {
+            --purple-deep:    #0d0714;
+            --purple-dark:    #1a0f2e;
+            --purple-mid:     #2d1b69;
+            --purple-accent:  #7c3aed;
+            --purple-bright:  #a855f7;
+            --purple-glow:    #c084fc;
+            --purple-light:   #e9d5ff;
+            --white:          #ffffff;
+            --white-faded:    rgba(255,255,255,0.07);
+            --white-border:   rgba(255,255,255,0.12);
+        }
+
         body {
-            background: linear-gradient(to bottom, #0f0f0f, #1c1c1c);
-            color: #fff;
+            background: var(--purple-deep);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 24px;
+            overflow-x: hidden;
         }
 
-        /* Glassmorphic Container */
+        /* Ambient background orbs */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::before {
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(124,58,237,0.35), transparent 70%);
+            top: -100px;
+            left: -100px;
+        }
+        body::after {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(168,85,247,0.25), transparent 70%);
+            bottom: -80px;
+            right: -80px;
+        }
+
         .container {
-            max-width: 600px;
+            position: relative;
+            z-index: 1;
+            max-width: 580px;
             width: 100%;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 36px 32px;
+            background: linear-gradient(145deg, rgba(45,27,105,0.45), rgba(26,15,46,0.6));
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 20px;
+            border: 1px solid var(--white-border);
+            box-shadow:
+                0 0 0 1px rgba(124,58,237,0.15),
+                0 8px 40px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.08);
             text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
         }
 
         .container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+            box-shadow:
+                0 0 0 1px rgba(168,85,247,0.3),
+                0 16px 48px rgba(0,0,0,0.6),
+                0 0 60px rgba(124,58,237,0.15),
+                inset 0 1px 0 rgba(255,255,255,0.1);
         }
 
-        /* Elegant Heading */
+        /* Decorative top bar */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 20px; right: 20px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--purple-bright), var(--purple-glow), transparent);
+            border-radius: 0 0 4px 4px;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 28px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(124,58,237,0.2);
+            border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--purple-glow);
+            margin-bottom: 14px;
+        }
+
         h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            background: linear-gradient(135deg, #ff9800, #e65100);
+            font-family: 'Syne', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--purple-glow) 0%, var(--white) 50%, var(--purple-light) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
+            background-clip: text;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
         }
 
-        /* Messages Box */
+        /* Messages */
+        .messages-label {
+            text-align: left;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(192,132,252,0.6);
+            margin-bottom: 8px;
+            padding-left: 2px;
+        }
+
         .messages {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            max-height: 200px;
+            margin-bottom: 24px;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(124,58,237,0.2);
+            border-radius: 14px;
+            min-height: 80px;
+            max-height: 220px;
             overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--purple-mid) transparent;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .messages p {
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            margin-bottom: 5px;
-            font-size: 0.95rem;
+        .messages::-webkit-scrollbar { width: 4px; }
+        .messages::-webkit-scrollbar-track { background: transparent; }
+        .messages::-webkit-scrollbar-thumb { background: var(--purple-mid); border-radius: 4px; }
+
+        /* Empty state */
+        .messages:empty::after {
+            content: 'No messages yet. Say something! 👋';
+            display: block;
+            text-align: center;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.82rem;
+            padding: 18px 0;
+            font-style: italic;
         }
 
-        /* Animated Input Fields */
+        /* Chat bubble row */
+        .msg-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            animation: fadeSlideIn 0.3s ease;
+        }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Avatar dot */
+        .msg-avatar {
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--purple-accent), var(--purple-bright));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 0 8px rgba(168,85,247,0.4);
+        }
+
+        /* Bubble */
+        .msg-bubble {
+            background: linear-gradient(135deg, rgba(124,58,237,0.25), rgba(168,85,247,0.12));
+            border: 1px solid rgba(168,85,247,0.2);
+            border-radius: 14px 14px 14px 4px;
+            padding: 9px 14px;
+            font-size: 0.88rem;
+            color: var(--purple-light);
+            text-align: left;
+            line-height: 1.45;
+            max-width: calc(100% - 40px);
+            word-break: break-word;
+        }
+
+        /* Form */
+        .input-wrap {
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(168,85,247,0.5);
+            font-size: 16px;
+            pointer-events: none;
+        }
+
         input[type="text"] {
             width: 100%;
-            padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            text-align: center;
+            padding: 13px 14px 13px 40px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(124,58,237,0.3);
+            color: var(--white);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
         }
+
+        input[type="text"]::placeholder { color: rgba(255,255,255,0.3); }
 
         input[type="text"]:focus {
-            border-color: #ff9800;
-            box-shadow: 0 0 12px rgba(255, 152, 0, 0.5);
             outline: none;
+            border-color: var(--purple-bright);
+            box-shadow: 0 0 0 3px rgba(124,58,237,0.2), 0 0 16px rgba(168,85,247,0.15);
         }
 
-        /* Glowing Submit Button */
         input[type="submit"] {
             width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #ff9800, #e65100);
-            color: #fff;
+            padding: 13px;
+            background: linear-gradient(135deg, var(--purple-accent), var(--purple-bright));
+            color: var(--white);
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input[type="submit"]::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+            opacity: 0;
+            transition: opacity 0.2s ease;
         }
 
         input[type="submit"]:hover {
-            box-shadow: 0 0 20px rgba(255, 152, 0, 0.6);
             transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(124,58,237,0.5), 0 0 40px rgba(168,85,247,0.2);
         }
 
-        /* Mobile Responsive */
+        input[type="submit"]:hover::before { opacity: 1; }
+
+        input[type="submit"]:active { transform: translateY(0); }
+
+        /* Footer hint */
+        .footer-hint {
+            margin-top: 20px;
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.2);
+            letter-spacing: 0.04em;
+        }
+
+        /* Mobile */
         @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 1.6rem;
-            }
-
-            input[type="text"], input[type="submit"] {
-                font-size: 14px;
-            }
+            .container { padding: 28px 20px; }
+            h1 { font-size: 1.45rem; }
+            input[type="text"],
+            input[type="submit"] { font-size: 0.9rem; }
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Flask + MySQL App two tier </h1>
+        <div class="header">
+            <div class="badge">Two-Tier Architecture</div>
+            <h1>Flask + MySQL App</h1>
+        </div>
 
-        <div class="messages">
+        <div class="messages-label">Messages</div>
+        <div class="messages" id="messageBox">
             {% for message in messages %}
-                <p>{{ message[0] }}</p>
+                <div class="msg-row">
+                    <div class="msg-avatar">U</div>
+                    <div class="msg-bubble">{{ message[0] }}</div>
+                </div>
             {% endfor %}
         </div>
 
         <form id="messageForm">
-            <input type="text" name="new_message" placeholder="Type your message..." required>
-            <input type="submit" value="Send">
+            <div class="input-wrap">
+                <span class="input-icon">✦</span>
+                <input type="text" name="new_message" placeholder="Type your message..." required>
+            </div>
+            <input type="submit" value="Send Message">
         </form>
+
+        <p class="footer-hint">Flask · MySQL · Python</p>
     </div>
 
-    <!-- jQuery for Smooth AJAX Requests -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             $("#messageForm").on("submit", function(event) {
-                event.preventDefault(); // Prevent page reload
+                event.preventDefault();
 
                 let messageInput = $("input[name='new_message']");
                 let message = messageInput.val().trim();
@@ -166,8 +357,13 @@
                     data: { new_message: message },
                     success: function(response) {
                         if (response && response.message) {
-                            $(".messages").append("<p>" + response.message + "</p>");
+                            let bubble = `<div class="msg-row">
+                                <div class="msg-avatar">U</div>
+                                <div class="msg-bubble">${response.message}</div>
+                            </div>`;
+                            $("#messageBox").append(bubble);
                             messageInput.val("");
+                            $("#messageBox").scrollTop($("#messageBox")[0].scrollHeight);
                         } else {
                             console.error("Unexpected response format:", response);
                         }
