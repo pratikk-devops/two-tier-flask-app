@@ -120,7 +120,7 @@ trivy fs . -o results.json
 # view summarized JSON or convert to HTML if desired
 ```
 
-Example Trivy caveats seen in pipeline run (from `#18.txt` console output):
+Example Trivy caveats seen in pipeline run (from console output):
 - Info: vulnerability and secret scanning enabled
 - Warning: pip site-packages directory not found (license detection skipped)
 
@@ -130,7 +130,7 @@ Add screenshot: `screenshot/trivy-results.png` for a sample Trivy result.
 
 **4) Jenkins pipeline (example)**
 
-Create a Pipeline job and use a `Jenkinsfile` in the repository. Below is a production-friendly Declarative pipeline that mirrors your workflow and uses a Shared library called `Shared`:
+Create a Pipeline job and use a `Jenkinsfile` in the repository. Below is a production-friendly Declarative pipeline that mirrors workflow and uses a Shared library called `Shared`:
 
 ```groovy
 @Library("Shared") _
@@ -205,7 +205,7 @@ docker login -u <user> -p <pass>
 docker push <user>/two-tier-flask-app:latest
 ```
 
-In the `#18.txt` console output for this repo, the pipeline successfully built and pushed the image, and then deployed it with `docker compose up -d --build` (see the console log for exact output and timings).
+In the console output for this repo, the pipeline successfully built and pushed the image, and then deployed it with `docker compose up -d --build` (see the console log for exact output and timings).
 
 ---
 
@@ -239,8 +239,8 @@ def docker_push(String credId, String imageName) {
 
 **8) Troubleshooting & console output reference**
 
-- For a successful run example including Trivy messages, Docker build/push logs, and deployment status, see the pipeline console output saved as `#18.txt` in this repository: [#18.txt](#18.txt#L1).
-- Common findings in `#18.txt`:
+- For a successful run example including Trivy messages, Docker build/push logs, and deployment status, see the pipeline console output
+- Common findings in console output :
   - `trivy fs . -o results.json` produced info/warn messages about secret scanning and pip site-packages.
   - Docker build used `python:3.9-slim` and successfully built and tagged `two-tier-flask-app:latest`.
   - Docker push to Docker Hub succeeded (digest reported) and `docker compose up -d --build` recreated containers.
@@ -252,17 +252,4 @@ def docker_push(String credId, String imageName) {
 Place images under `screenshot/` and reference them inline in this README (example used above). Recommended images are mentioned near the top.
 
 ---
-
-**10) Next steps (optional automation & hardening)**
-- Parse `results.json` and fail builds on `CRITICAL`/`HIGH` severities.
-- Add unit and integration tests in the `TEST` stage; run them inside a test container.
-- Add automated Canary / Blue-Green deployment in your `DEPLOY` stage.
-
----
-
-If you'd like, I can:
-- add a Jenkinsfile variant that fails on Trivy high/critical findings;
-- create a `docs/` folder with images copied from `screenshot/` and embed them here; or
-- commit and push this README update to the repository.
-
 
