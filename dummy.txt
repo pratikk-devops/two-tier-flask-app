@@ -1,2 +1,0 @@
-This is a dummy file
-automate cicd deployment trigger + github webhooks
